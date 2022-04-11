@@ -1,7 +1,7 @@
 import Chart from "./components/Chart";
 import Table from "./components/Table";
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export type Data = {
   id: string;
@@ -12,6 +12,11 @@ export type Data = {
 
 function App() {
   const [dataList, setDataList] = useState([] as Data[]);
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("data") || "[]");
+    setDataList(data);
+  }, []);
 
   const addNewLine = () => {
     let new_id = 0;
@@ -25,7 +30,12 @@ function App() {
       ...dataList,
       { id: new_id + "", label: "New", vision: 0, ability: 0 },
     ]);
+    localStorage.setItem("data", JSON.stringify(dataList));
   };
+
+  useEffect(() => {
+    localStorage.setItem("data", JSON.stringify(dataList));
+  }, [dataList]);
 
   const changeData = (data: Data) => {
     const data_ind = dataList.findIndex((d) => d.id === data.id);
@@ -40,7 +50,6 @@ function App() {
     setDataList((dataList) => dataList.filter((d) => d.id !== id));
   };
 
-  console.log(dataList, "datalist");
   return (
     <div className="App">
       <Chart data_list={dataList} changeData={changeData} />

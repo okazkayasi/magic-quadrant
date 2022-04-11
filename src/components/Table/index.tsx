@@ -12,12 +12,15 @@ const TableRow: React.FC<{
 
     if (name !== "label") {
       // check if value is in limits
-      const value_int = parseInt(value);
-      if (value_int < 0 || value_int > 100) {
+      const value_float = parseFloat(value);
+      if (value_float < 0 || value_float > 100) {
         return;
       }
     }
-    changeData({ ...data, [name]: name === "label" ? value : parseInt(value) });
+    changeData({
+      ...data,
+      [name]: name === "label" ? value : parseFloat(value),
+    });
   };
 
   return (
@@ -33,7 +36,7 @@ const TableRow: React.FC<{
       <div>
         <input
           type="number"
-          step={0.01}
+          step="0.01"
           min="0"
           max="100"
           name="vision"
@@ -44,7 +47,7 @@ const TableRow: React.FC<{
       <div>
         <input
           type="number"
-          step={0.01}
+          step="0.01"
           min="0"
           max="100"
           name="ability"
@@ -65,7 +68,6 @@ const Table: React.FC<{
   deleteLine: (id: string) => void;
   changeData: (data: Data) => void;
 }> = ({ data_list, addNewLine, deleteLine, changeData }) => {
-  console.log(data_list, "here");
   return (
     <div className="table_container">
       <div className="add_button_wrapper">
@@ -88,6 +90,7 @@ const Table: React.FC<{
       <div className="table_body">
         {data_list.map((data) => (
           <TableRow
+            key={data.id}
             data={data}
             deleteLine={deleteLine}
             changeData={changeData}
