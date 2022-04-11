@@ -43,7 +43,7 @@ function App() {
   console.log(dataList, "datalist");
   return (
     <div className="App">
-      <Chart />
+      <Chart data_list={dataList} changeData={changeData} />
       <Table
         data_list={dataList}
         addNewLine={addNewLine}
