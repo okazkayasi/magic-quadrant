@@ -1,0 +1,56 @@
+.table_container {
+  margin-left: 50px;
+}
+.add_button_wrapper {
+  margin-bottom: 3px;
+}
+
+.table_head,
+.table_row {
+  display: flex;
+  margin-top: 4px;
+}
+
+.table_head > div,
+.table_row > div {
+  width: 100px;
+}
+.table_head > .label_container {
+  min-width: 250px;
+}
+.table_row > .input_wrapper {
+  min-width: 250px;
+}
+
+.table_head > div {
+  background-color: #adb9c3;
+  border-radius: 2px;
+  height: 20px;
+}
+.table_head > div:not(:first-child),
+.table_row > div:not(:first-child) {
+  margin-left: 3px;
+}
+.table_head > div > p {
+  color: white;
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.table_row input {
+  width: 100%;
+  height: 22px;
+  border-radius: 4px;
+  border: 1px solid #adb9c3;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+.table_row button {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  height: 22px;
+  padding: 0;
+}
