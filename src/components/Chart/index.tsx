@@ -4,20 +4,65 @@ import { Data } from "../../App";
 
 const DataPoint: React.FC<{
   data: Data;
-}> = ({ data }) => {
+  changeData: (data: Data) => void;
+}> = ({ data, changeData }) => {
   const vision = data.vision ? data.vision : 0;
   const ability = data.ability ? 100 - data.ability : 100;
 
-  
-  useEffect(() => {
-    first
-  
-    return () => {
-      second
-    }
-  }, [third])
-  
+  const drag = (top_perc: number, left_perc: number) => {
+    changeData({ ...data, vision: left_perc, ability: 100 - top_perc });
+  };
 
+  useEffect(() => {
+    function addListeners() {
+      document
+        ?.getElementById(`${data.id}-point`)
+        ?.addEventListener("mousedown", mouseDown, false);
+      window.addEventListener("mouseup", mouseUp, false);
+    }
+
+    function mouseUp() {
+      window.removeEventListener("mousemove", divMove, true);
+    }
+
+    function mouseDown(e: MouseEvent) {
+      window.addEventListener("mousemove", divMove, true);
+    }
+
+    function divMove(e: MouseEvent) {
+      var offsets = document?.getElementById("chart")?.getBoundingClientRect();
+      var top = offsets?.top;
+      var left = offsets?.left;
+      console.log(top, left);
+      var div = document.getElementById(`${data.id}-point`);
+      if (div && top && left) {
+        const cur_top = e.clientY - top;
+        const cur_left = e.clientX - left;
+        let final_top = parseInt(div.style.top);
+        let final_left = parseInt(div.style.left);
+        if (cur_top <= 400 && cur_top >= 0) {
+          div.style.top = cur_top + "px";
+          final_top = cur_top;
+        }
+        if (cur_left <= 400 && cur_left >= 0) {
+          div.style.left = cur_left + "px";
+          final_left = cur_left;
+        }
+        if (
+          final_top !== parseInt(div.style.top) ||
+          final_left !== parseInt(div.style.left)
+        ) {
+          const top_perc = final_top / 4;
+          const left_perc = final_left / 4;
+          drag(top_perc, left_perc);
+        }
+      }
+    }
+    addListeners();
+    return () => {
+      window.removeEventListener("mousemove", divMove, true);
+    };
+  }, []);
 
   return (
     <div
@@ -31,9 +76,6 @@ const DataPoint: React.FC<{
       <p>{data.label}</p>
     </div>
   );
-
-
-
 };
 
 const Chart: React.FC<{
@@ -46,7 +88,7 @@ const Chart: React.FC<{
         <p>{"Ability to execute ->"}</p>
       </div>
       <div>
-        <div className="chart_container">
+        <div className="chart_container" id="chart">
           <div className="chart_row">
             <div>
               <p>Challengers</p>
@@ -64,7 +106,7 @@ const Chart: React.FC<{
             </div>
           </div>
           {data_list.map((data) => (
-            <DataPoint data={data} key={data.id} />
+            <DataPoint data={data} key={data.id} changeData={changeData} />
           ))}
         </div>
         <div className="bottom_axis_wrapper">

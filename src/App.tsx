@@ -23,7 +23,7 @@ function App() {
 
     setDataList((dataList) => [
       ...dataList,
-      { id: new_id + "", label: "", vision: 0, ability: 0 },
+      { id: new_id + "", label: "New", vision: 0, ability: 0 },
     ]);
   };
 

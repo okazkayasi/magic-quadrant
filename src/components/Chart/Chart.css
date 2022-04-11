@@ -1,6 +1,7 @@
 .chart_wrapper {
   display: flex;
   align-items: flex-end;
+  user-select: none;
 }
 .left_axis_wrapper {
   position: relative;
