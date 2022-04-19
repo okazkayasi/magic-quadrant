@@ -62,6 +62,7 @@ const DataPoint: React.FC<{
         }
       }
     };
+    
     addListeners();
     return () => {
       document
