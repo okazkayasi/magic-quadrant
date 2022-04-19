@@ -10,7 +10,7 @@ export type Data = {
   ability: number;
 };
 
-function App() {
+const App = () => {
   const [dataList, setDataList] = useState([] as Data[]);
 
   useEffect(() => {
@@ -59,6 +59,6 @@ function App() {
       />
     </div>
   );
-}
+};
 
 export default App;
