@@ -1,6 +1,24 @@
 import React from "react";
 import { Data } from "../../App";
 
+const NumberInput: React.FC<{
+  name: string;
+  value: number;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}> = ({ name, value, onChange }) => {
+  return (
+    <input
+      type="number"
+      step="0.01"
+      min="0"
+      max="100"
+      name={name}
+      value={value}
+      onChange={onChange}
+    />
+  );
+};
+
 const TableRow: React.FC<{
   data: Data;
   deleteLine: (id: number) => void;
@@ -39,22 +57,14 @@ const TableRow: React.FC<{
         />
       </div>
       <div>
-        <input
-          type="number"
-          step="0.01"
-          min="0"
-          max="100"
+        <NumberInput
           name="vision"
           value={data.vision}
           onChange={onFloatChange}
         />
       </div>
       <div>
-        <input
-          type="number"
-          step="0.01"
-          min="0"
-          max="100"
+        <NumberInput
           name="ability"
           value={data.ability}
           onChange={onFloatChange}
