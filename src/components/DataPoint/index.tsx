@@ -1,16 +1,17 @@
 import { Data } from "../../App";
 import React, { useEffect } from "react";
+import { MAX_LIMIT, MIN_LIMIT } from "../TableRow";
 
 const DataPoint: React.FC<{
   data: Data;
   changeLine: (data: Data) => void;
 }> = ({ data, changeLine }) => {
   const vision = data.vision ? data.vision : 0;
-  const ability = data.ability ? 100 - data.ability : 100;
+  const ability = data.ability ? MAX_LIMIT - data.ability : MAX_LIMIT;
 
   useEffect(() => {
     const drag = (topPerc: number, leftPerc: number) => {
-      changeLine({ ...data, vision: leftPerc, ability: 100 - topPerc });
+      changeLine({ ...data, vision: leftPerc, ability: MAX_LIMIT - topPerc });
     };
     const addListeners = () => {
       document
@@ -28,41 +29,32 @@ const DataPoint: React.FC<{
     };
 
     const dataPointMove = (e: MouseEvent) => {
-      let offsets = document?.getElementById("chart")?.getBoundingClientRect();
+      const offsets = document
+        ?.getElementById("chart")
+        ?.getBoundingClientRect();
       const chartWidth = offsets?.width || 0;
       const chartHeight = offsets?.height || 0;
-      let top = offsets?.top;
-      let left = offsets?.left;
-      let div = document.getElementById(`${data.id}-point`);
+      const top = offsets?.top;
+      const left = offsets?.left;
+      const div = document.getElementById(`${data.id}-point`);
       if (div && top && left) {
         const currentTop = e.clientY - top;
         const currentLeft = e.clientX - left;
         let finalTop = parseInt(div.style.top);
         let finalLeft = parseInt(div.style.left);
 
-        if (currentTop >= 0) {
-          div.style.top = Math.min(currentTop, chartHeight) + "px";
-          finalTop = Math.min(currentTop, chartHeight);
-        }
-        if (currentLeft >= 0) {
-          div.style.left = Math.min(currentLeft, chartWidth) + "px";
-          finalLeft = Math.min(currentLeft, chartWidth);
-        }
+        finalTop = Math.max(0, Math.min(currentTop, chartHeight));
+        finalLeft = Math.max(0, Math.min(currentLeft, chartWidth));
 
-        if (
-          finalTop !== parseInt(div.style.top) ||
-          finalLeft !== parseInt(div.style.left)
-        ) {
-          const topPerc = (finalTop * 100) / chartHeight;
-          const leftPerc = (finalLeft * 100) / chartWidth;
-          drag(
-            Math.round(topPerc * 100) / 100,
-            Math.round(leftPerc * 100) / 100
-          );
-        }
+        const topPerc = (finalTop * MAX_LIMIT) / chartHeight;
+        const leftPerc = (finalLeft * MAX_LIMIT) / chartWidth;
+        drag(
+          Math.round(topPerc * MAX_LIMIT) / MAX_LIMIT,
+          Math.round(leftPerc * MAX_LIMIT) / MAX_LIMIT
+        );
       }
     };
-    
+
     addListeners();
     return () => {
       document

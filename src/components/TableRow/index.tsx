@@ -1,6 +1,9 @@
 import React from "react";
 import { Data } from "../../App";
 
+export const MIN_LIMIT = 0;
+export const MAX_LIMIT = 100;
+
 const NumberInput: React.FC<{
   name: string;
   value: number;
@@ -27,9 +30,8 @@ const TableRow: React.FC<{
   const onFloatChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const value_float = parseFloat(value);
-
     // check if value is in limits
-    if (value_float < 0 || value_float > 100) {
+    if (value_float < MIN_LIMIT || value_float > MAX_LIMIT) {
       return;
     }
     changeLine({
