@@ -9,8 +9,8 @@ const DataPoint: React.FC<{
   const ability = data.ability ? 100 - data.ability : 100;
 
   useEffect(() => {
-    const drag = (top_perc: number, left_perc: number) => {
-      changeLine({ ...data, vision: left_perc, ability: 100 - top_perc });
+    const drag = (topPerc: number, leftPerc: number) => {
+      changeLine({ ...data, vision: leftPerc, ability: 100 - topPerc });
     };
     const addListeners = () => {
       document
@@ -29,35 +29,35 @@ const DataPoint: React.FC<{
 
     const divMove = (e: MouseEvent) => {
       let offsets = document?.getElementById("chart")?.getBoundingClientRect();
-      const chart_width = offsets?.width || 0;
-      const chart_height = offsets?.height || 0;
+      const chartWidth = offsets?.width || 0;
+      const chartHeight = offsets?.height || 0;
       let top = offsets?.top;
       let left = offsets?.left;
       let div = document.getElementById(`${data.id}-point`);
       if (div && top && left) {
-        const cur_top = e.clientY - top;
-        const cur_left = e.clientX - left;
-        let final_top = parseInt(div.style.top);
-        let final_left = parseInt(div.style.left);
-        if (cur_top <= chart_height && cur_top >= 0) {
-          div.style.top = cur_top + "px";
-          final_top = cur_top;
+        const currentTop = e.clientY - top;
+        const currentLeft = e.clientX - left;
+        let finalTop = parseInt(div.style.top);
+        let finalLeft = parseInt(div.style.left);
+
+        if (currentTop >= 0) {
+          div.style.top = Math.min(currentTop, chartHeight) + "px";
+          finalTop = Math.min(currentTop, chartHeight);
         }
-        if (cur_left <= chart_width && cur_left >= 0) {
-          div.style.left = cur_left + "px";
-          final_left = cur_left;
-        } else if (cur_left > chart_width) {
-        //   window.removeEventListener("mousemove", divMove, true);
+        if (currentLeft >= 0) {
+          div.style.left = Math.min(currentLeft, chartWidth) + "px";
+          finalLeft = Math.min(currentLeft, chartWidth);
         }
+
         if (
-          final_top !== parseInt(div.style.top) ||
-          final_left !== parseInt(div.style.left)
+          finalTop !== parseInt(div.style.top) ||
+          finalLeft !== parseInt(div.style.left)
         ) {
-          const top_perc = final_top / 4;
-          const left_perc = final_left / 4;
+          const topPerc = (finalTop * 100) / chartHeight;
+          const leftPerc = (finalLeft * 100) / chartWidth;
           drag(
-            Math.round(top_perc * 100) / 100,
-            Math.round(left_perc * 100) / 100
+            Math.round(topPerc * 100) / 100,
+            Math.round(leftPerc * 100) / 100
           );
         }
       }
@@ -67,7 +67,6 @@ const DataPoint: React.FC<{
       document
         ?.getElementById(`${data.id}-point`)
         ?.removeEventListener("mousedown", mouseDown, false);
-    //   window.removeEventListener("mouseup", mouseUp, false);
     };
   }, [data, changeLine]);
 

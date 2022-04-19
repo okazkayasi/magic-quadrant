@@ -4,9 +4,9 @@ import { Data } from "../../App";
 import DataPoint from "../DataPoint";
 
 const Chart: React.FC<{
-  data_list: Data[];
+  dataList: Data[];
   changeLine: (data: Data) => void;
-}> = ({ data_list, changeLine }) => {
+}> = ({ dataList, changeLine }) => {
   return (
     <div>
       <div className="chart_wrapper">
@@ -31,9 +31,9 @@ const Chart: React.FC<{
                 <p>Visionaries</p>
               </div>
             </div>
-            {data_list &&
-              data_list.length > 0 &&
-              data_list.map((data, i) => (
+            {dataList &&
+              dataList.length > 0 &&
+              dataList.map((data, i) => (
                 <DataPoint data={data} key={data.id} changeLine={changeLine} />
               ))}
           </div>

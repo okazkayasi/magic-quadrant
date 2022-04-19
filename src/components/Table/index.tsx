@@ -4,11 +4,11 @@ import { Data } from "../../App";
 import TableRow from "../TableRow";
 
 const Table: React.FC<{
-  data_list: Data[];
+  dataList: Data[];
   addNewLine: () => void;
   deleteLine: (id: number) => void;
   changeLine: (data: Data) => void;
-}> = ({ data_list, addNewLine, deleteLine, changeLine }) => {
+}> = ({ dataList, addNewLine, deleteLine, changeLine }) => {
   return (
     <div className="table_container">
       <div className="add_button_wrapper">
@@ -29,7 +29,7 @@ const Table: React.FC<{
         </div>
       </div>
       <div className="table_body">
-        {data_list.map((data) => (
+        {dataList.map((data) => (
           <TableRow
             key={data.id}
             data={data}

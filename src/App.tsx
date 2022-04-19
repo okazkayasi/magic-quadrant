@@ -14,9 +14,9 @@ function App() {
   const [dataList, setDataList] = useState([] as Data[]);
 
   useEffect(() => {
-    const data_from_storage = localStorage.getItem("data");
-    if (data_from_storage) {
-      setDataList(JSON.parse(data_from_storage));
+    const dataFromStorage = localStorage.getItem("data");
+    if (dataFromStorage) {
+      setDataList(JSON.parse(dataFromStorage));
     } else {
       localStorage.setItem("data", JSON.stringify([]));
     }
@@ -27,20 +27,20 @@ function App() {
   }, [dataList]);
 
   const addNewLine = () => {
-    const new_id = dataList.length + 1;
+    const newId = dataList.length + 1;
     setDataList([
       ...dataList,
-      { id: new_id, label: "New", vision: 0, ability: 0 },
+      { id: newId, label: "New", vision: 0, ability: 0 },
     ]);
     localStorage.setItem("data", JSON.stringify(dataList));
   };
 
   const changeLine = (data: Data) => {
-    const data_ind = dataList.findIndex((d) => d.id === data.id);
+    const dataInd = dataList.findIndex((d) => d.id === data.id);
     setDataList([
-      ...dataList.slice(0, data_ind),
+      ...dataList.slice(0, dataInd),
       data,
-      ...dataList.slice(data_ind + 1),
+      ...dataList.slice(dataInd + 1),
     ]);
   };
 
@@ -50,9 +50,9 @@ function App() {
 
   return (
     <div className="App">
-      <Chart data_list={dataList} changeLine={changeLine} />
+      <Chart dataList={dataList} changeLine={changeLine} />
       <Table
-        data_list={dataList}
+        dataList={dataList}
         addNewLine={addNewLine}
         deleteLine={deleteLine}
         changeLine={changeLine}
