@@ -20,14 +20,14 @@ const DataPoint: React.FC<{
     };
 
     const mouseUp = () => {
-      window.removeEventListener("mousemove", divMove, true);
+      window.removeEventListener("mousemove", dataPointMove, true);
     };
 
     const mouseDown = (e: MouseEvent) => {
-      window.addEventListener("mousemove", divMove, true);
+      window.addEventListener("mousemove", dataPointMove, true);
     };
 
-    const divMove = (e: MouseEvent) => {
+    const dataPointMove = (e: MouseEvent) => {
       let offsets = document?.getElementById("chart")?.getBoundingClientRect();
       const chartWidth = offsets?.width || 0;
       const chartHeight = offsets?.height || 0;
