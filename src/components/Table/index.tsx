@@ -4,9 +4,9 @@ import { Data } from "../../App";
 
 const TableRow: React.FC<{
   data: Data;
-  deleteLine: (id: string) => void;
-  changeData: (data: Data) => void;
-}> = ({ data, deleteLine, changeData }) => {
+  deleteLine: (id: number) => void;
+  changeLine: (data: Data) => void;
+}> = ({ data, deleteLine, changeLine }) => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -17,7 +17,7 @@ const TableRow: React.FC<{
         return;
       }
     }
-    changeData({
+    changeLine({
       ...data,
       [name]: name === "label" ? value : parseFloat(value),
     });
@@ -65,9 +65,9 @@ const TableRow: React.FC<{
 const Table: React.FC<{
   data_list: Data[];
   addNewLine: () => void;
-  deleteLine: (id: string) => void;
-  changeData: (data: Data) => void;
-}> = ({ data_list, addNewLine, deleteLine, changeData }) => {
+  deleteLine: (id: number) => void;
+  changeLine: (data: Data) => void;
+}> = ({ data_list, addNewLine, deleteLine, changeLine }) => {
   return (
     <div className="table_container">
       <div className="add_button_wrapper">
@@ -93,7 +93,7 @@ const Table: React.FC<{
             key={data.id}
             data={data}
             deleteLine={deleteLine}
-            changeData={changeData}
+            changeLine={changeLine}
           />
         ))}
       </div>

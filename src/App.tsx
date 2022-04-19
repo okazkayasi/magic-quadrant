@@ -4,7 +4,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 
 export type Data = {
-  id: string;
+  id: number;
   label: string;
   vision: number;
   ability: number;
@@ -14,50 +14,48 @@ function App() {
   const [dataList, setDataList] = useState([] as Data[]);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("data") || "[]");
-    setDataList(data);
-  }, []);
-
-  const addNewLine = () => {
-    let new_id = 0;
-    if (dataList.length > 0) {
-      const all_ids = dataList.map((d) => parseInt(d.id));
-      const last_id = Math.max(...all_ids);
-      new_id = last_id + 1;
+    const data_from_storage = localStorage.getItem("data");
+    if (data_from_storage) {
+      setDataList(JSON.parse(data_from_storage));
+    } else {
+      localStorage.setItem("data", JSON.stringify([]));
     }
-
-    setDataList((dataList) => [
-      ...dataList,
-      { id: new_id + "", label: "New", vision: 0, ability: 0 },
-    ]);
-    localStorage.setItem("data", JSON.stringify(dataList));
-  };
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("data", JSON.stringify(dataList));
   }, [dataList]);
 
-  const changeData = (data: Data) => {
+  const addNewLine = () => {
+    const new_id = dataList.length + 1;
+    setDataList([
+      ...dataList,
+      { id: new_id, label: "New", vision: 0, ability: 0 },
+    ]);
+    localStorage.setItem("data", JSON.stringify(dataList));
+  };
+
+  const changeLine = (data: Data) => {
     const data_ind = dataList.findIndex((d) => d.id === data.id);
-    setDataList((dataList) => [
+    setDataList([
       ...dataList.slice(0, data_ind),
       data,
       ...dataList.slice(data_ind + 1),
     ]);
   };
 
-  const deleteLine = (id: string) => {
-    setDataList((dataList) => dataList.filter((d) => d.id !== id));
+  const deleteLine = (id: number) => {
+    setDataList(dataList.filter((d) => d.id !== id));
   };
 
   return (
     <div className="App">
-      <Chart data_list={dataList} changeData={changeData} />
+      <Chart data_list={dataList} changeLine={changeLine} />
       <Table
         data_list={dataList}
         addNewLine={addNewLine}
         deleteLine={deleteLine}
-        changeData={changeData}
+        changeLine={changeLine}
       />
     </div>
   );
