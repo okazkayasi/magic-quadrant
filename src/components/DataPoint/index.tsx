@@ -104,6 +104,15 @@ const DataPoint: React.FC<{
               borderLeft: "3px dashed red",
             }}
           />
+          <div
+            className="data_moving data_moving_area"
+            style={{
+              left: 0,
+              bottom: 0,
+              width: `${vision}%`,
+              height: `${100 - ability}%`,
+            }}
+          />
         </>
       )}
     </>
