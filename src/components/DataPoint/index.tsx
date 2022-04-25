@@ -1,6 +1,6 @@
 import { Data } from "../../App";
 import React, { useEffect } from "react";
-import { MAX_LIMIT, MIN_LIMIT } from "../TableRow";
+import { MAX_LIMIT } from "../TableRow";
 
 const DataPoint: React.FC<{
   data: Data;
@@ -63,6 +63,8 @@ const DataPoint: React.FC<{
     };
   }, [data, changeLine]);
 
+  const opacity = data.checked ? 1 : 0.5;
+
   return (
     <div
       id={data.id + "-point"}
@@ -70,6 +72,7 @@ const DataPoint: React.FC<{
       style={{
         top: `${ability}%`,
         left: `${vision}%`,
+        opacity: opacity,
       }}
     >
       <p>{data.label}</p>

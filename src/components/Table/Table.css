@@ -13,7 +13,7 @@
 
 .table_head > div,
 .table_row > div {
-  width: 100px;
+  width: 80px;
 }
 .table_head > .label_container {
   min-width: 250px;
@@ -38,7 +38,10 @@
   font-size: 14px;
   line-height: 20px;
 }
-
+.table_head > .table-checkbox,
+.table_row > .table-checkbox {
+  width: 30px;
+}
 .table_row input {
   width: 100%;
   height: 22px;

@@ -15,6 +15,7 @@ const Table: React.FC<{
         <button onClick={addNewLine}>Add</button>
       </div>
       <div className="table_head">
+        <div className="table-checkbox"></div>
         <div className="label_container">
           <p>Label</p>
         </div>

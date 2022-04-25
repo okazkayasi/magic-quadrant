@@ -8,6 +8,7 @@ export type Data = {
   label: string;
   vision: number;
   ability: number;
+  checked: boolean;
 };
 
 const App = () => {
@@ -30,7 +31,7 @@ const App = () => {
     const newId = dataList.length + 1;
     setDataList([
       ...dataList,
-      { id: newId, label: "New", vision: 0, ability: 0 },
+      { id: newId, label: "New", vision: 0, ability: 0, checked: false },
     ]);
     localStorage.setItem("data", JSON.stringify(dataList));
   };

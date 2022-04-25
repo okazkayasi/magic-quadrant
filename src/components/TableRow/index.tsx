@@ -48,8 +48,19 @@ const TableRow: React.FC<{
     });
   };
 
+  const onBooleanChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    changeLine({
+      ...data,
+      [name]: checked,
+    });
+  };
+
   return (
     <div className="table_row">
+      <div className="table-checkbox">
+        <input type="checkbox" name="checked" onChange={onBooleanChange} />
+      </div>
       <div className="input_wrapper">
         <input
           type="text"
