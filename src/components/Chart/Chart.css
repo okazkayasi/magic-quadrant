@@ -72,6 +72,9 @@
   background-color: #3878a2;
   transform: translate(-50%, -50%);
 }
+.data_moving {
+  position: absolute;
+}
 .data_wrapper p {
   position: absolute;
   left: 15px;

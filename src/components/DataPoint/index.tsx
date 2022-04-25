@@ -1,11 +1,13 @@
 import { Data } from "../../App";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MAX_LIMIT } from "../TableRow";
 
 const DataPoint: React.FC<{
   data: Data;
   changeLine: (data: Data) => void;
 }> = ({ data, changeLine }) => {
+  const [moving, setMoving] = useState(false);
+
   const vision = data.vision ? data.vision : 0;
   const ability = data.ability ? MAX_LIMIT - data.ability : MAX_LIMIT;
 
@@ -22,10 +24,12 @@ const DataPoint: React.FC<{
 
     const mouseUp = () => {
       window.removeEventListener("mousemove", dataPointMove, true);
+      setMoving(false);
     };
 
     const mouseDown = (e: MouseEvent) => {
       window.addEventListener("mousemove", dataPointMove, true);
+      setMoving(true);
     };
 
     const dataPointMove = (e: MouseEvent) => {
@@ -66,17 +70,43 @@ const DataPoint: React.FC<{
   const opacity = data.checked ? 1 : 0.5;
 
   return (
-    <div
-      id={data.id + "-point"}
-      className="data_wrapper"
-      style={{
-        top: `${ability}%`,
-        left: `${vision}%`,
-        opacity: opacity,
-      }}
-    >
-      <p>{data.label}</p>
-    </div>
+    <>
+      <div
+        id={data.id + "-point"}
+        className="data_wrapper"
+        style={{
+          top: `${ability}%`,
+          left: `${vision}%`,
+          opacity: opacity,
+        }}
+      >
+        <p>{data.label}</p>
+      </div>
+      {moving && (
+        <>
+          <div
+            className="data_moving data_moving_horizontal"
+            style={{
+              left: 0,
+              top: `${ability}%`,
+              width: `${vision}%`,
+              height: 0,
+              borderTop: "3px dashed red",
+            }}
+          />
+          <div
+            className="data_moving data_moving_vertical"
+            style={{
+              left: `${vision}%`,
+              bottom: 0,
+              width: 0,
+              height: `${100 - ability}%`,
+              borderLeft: "3px dashed red",
+            }}
+          />
+        </>
+      )}
+    </>
   );
 };
 
